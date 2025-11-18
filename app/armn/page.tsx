@@ -17,7 +17,7 @@ export default function Page() {
       </div>
 
       <div className="bg-black rounded-md overflow-hidden shadow">
-        {/* PoseCoachClient handles camera, MediaPipe and voice/text prompts */}
+        {/* PoseCoachClient handles camera, MoveNet and voice/text prompts */}
         <ARMN />
       </div>
 
