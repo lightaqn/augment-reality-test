@@ -1,9 +1,12 @@
 import PoseCoachMediaPipe from "@/components/PoseCoachMediaPipe";
 import React from "react";
+import dynamic from "next/dynamic";
 
-type Props = {};
+const ARMP = dynamic(() => import('../../components/PoseCoachMediaPipe'),
+{ ssr: false })
 
-const ARMP = (props: Props) => {
+
+export default function Page() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -12,7 +15,7 @@ const ARMP = (props: Props) => {
 
       <div className="bg-black rounded-md overflow-hidden shadow">
         {/* PoseCoachClient handles camera, MediaPipe and voice/text prompts */}
-        <PoseCoachMediaPipe />
+        <ARMP />
       </div>
 
       <div className="text-sm text-gray-600 mt-2">
@@ -23,4 +26,5 @@ const ARMP = (props: Props) => {
   );
 };
 
-export default ARMP;
+
+
