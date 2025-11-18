@@ -110,7 +110,7 @@ const PoseCoachClientMoveNet = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white relative">
       <h1 className="text-2xl font-bold mb-2">MoveNet AR Coach</h1>
       <video
         ref={videoRef}
