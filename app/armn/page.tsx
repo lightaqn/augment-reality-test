@@ -1,9 +1,15 @@
 import PoseCoachClientMoveNet from "@/components/PoseCoachClientMoveNet";
 import React from "react";
+import dynamic from "next/dynamic";
 
-type Props = {};
 
-const ARMN = (props: Props) => {
+
+
+const ARMN = dynamic(() => import('../../components/PoseCoachClientMoveNet'),
+{ ssr: false }) 
+
+
+export default function Page() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -12,7 +18,7 @@ const ARMN = (props: Props) => {
 
       <div className="bg-black rounded-md overflow-hidden shadow">
         {/* PoseCoachClient handles camera, MediaPipe and voice/text prompts */}
-        <PoseCoachClientMoveNet />
+        <ARMN />
       </div>
 
       <div className="text-sm text-gray-600 mt-2">
@@ -23,4 +29,4 @@ const ARMN = (props: Props) => {
   );
 };
 
-export default ARMN;
+
