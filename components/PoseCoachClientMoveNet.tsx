@@ -10,6 +10,10 @@ type Props = {};
 const PoseCoachClientMoveNet = (props: Props) => {
   const videoRef = useRef<HTMLVideoElement | any>(null);
   const canvasRef = useRef<HTMLCanvasElement | any>(null);
+		
+		const frameCountRef = useRef(0)
+		const lastSecondRef = useRef(Date.now());
+		const [fps, setFps] = useState(0);
   const [calibrated, setCalibrated] = useState(false);
   const [baseline, setBaseline] = useState<any>(null);
   const [feedback, setFeedback] = useState("Stand straight to calibrate...");
@@ -37,6 +41,7 @@ const PoseCoachClientMoveNet = (props: Props) => {
         const poses = await detector.estimatePoses(video);
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
         if (poses.length > 0) {
+													updateFrameRates()
           drawPose(poses[0], ctx);
           handleCoaching(poses[0]);
         }
@@ -48,6 +53,20 @@ const PoseCoachClientMoveNet = (props: Props) => {
     run();
     return () => cancelAnimationFrame(animId);
   }, []);
+
+
+function updateFrameRates() {
+  const now = Date.now();
+  frameCountRef.current++;
+
+  // --- FPS (Frames per Second) ---
+  if (now - lastSecondRef.current >= 1000) {
+    setFps(frameCountRef.current);
+    frameCountRef.current = 0;
+    lastSecondRef.current = now;
+  }
+}
+
 
   const drawPose = (pose: any, ctx: any) => {
     const keypoints = pose.keypoints;
@@ -125,9 +144,14 @@ const PoseCoachClientMoveNet = (props: Props) => {
         height={360}
         className="absolute top-0 left-0 w-full max-w-md"
       ></canvas>
-      <p className="mt-4 text-center text-lg bg-gray-800 p-3 rounded-lg w-11/12">
+<div className="mt-4 bg-gray-900 text-white rounded-lg p-2 text-center flex items-center justify-between">
+      <p className="text-center text-lg p-3 rounded-lg w-11/12">
         {feedback}
       </p>
+<div className="rounded-lg p-2 text-center">
+  <p>FPS: {fps}</p>
+</div>
+</div>
     </div>
   );
 };
