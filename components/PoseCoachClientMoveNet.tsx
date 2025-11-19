@@ -11,7 +11,7 @@ const PoseCoachClientMoveNet = (props: Props) => {
   const videoRef = useRef<HTMLVideoElement | any>(null);
   const canvasRef = useRef<HTMLCanvasElement | any>(null);
 		
-		const frameCountRef = useRef(0)
+		const frameCountRef = useRef<number | any>(0);
 		const lastSecondRef = useRef(Date.now());
 		const [fps, setFps] = useState(0);
   const [calibrated, setCalibrated] = useState(false);
