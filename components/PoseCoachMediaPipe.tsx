@@ -6,6 +6,10 @@ type Props = {};
 const PoseCoachMediaPipe = (props: Props) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+const frameCountRef = useRef<number | any>(0);
+const lastSecondRef = useRef(Date.now());
+
+const [fps, setFps] = useState(0);
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
   const lastMovementRef = useRef<number>(Date.now());
@@ -106,6 +110,7 @@ const PoseCoachMediaPipe = (props: Props) => {
       if (results.poseLandmarks) {
         // draw landmarks
         // @ts-ignore
+										 updateFrameRates()
         window.drawConnectors &&
           window?.drawConnectors(
             ctx,
@@ -203,6 +208,19 @@ const PoseCoachMediaPipe = (props: Props) => {
     };
   }, []);
 
+function updateFrameRates() {
+  const now = Date.now();
+  frameCountRef.current++;
+
+  // --- FPS (Frames per Second) ---
+  if (now - lastSecondRef.current >= 1000) {
+    setFps(frameCountRef.current);
+    frameCountRef.current = 0;
+    lastSecondRef.current = now;
+  }
+}
+
+
   return (
     <div className="relative h-[420px] w-full bg-black">
       <video
@@ -231,6 +249,9 @@ const PoseCoachMediaPipe = (props: Props) => {
           {message || "Waiting for actions..."}
         </div>
       </div>
+<div className="absolute left-3 bottom-3 bg-gray-900 text-white rounded-lg p-2 text-center">
+  <p>FPS: {fps}</p>
+</div>
     </div>
   );
 };
