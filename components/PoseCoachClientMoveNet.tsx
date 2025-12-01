@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs-core";
 import "@tensorflow/tfjs-backend-webgl";
 import * as posedetection from "@tensorflow-models/pose-detection";
-
+import { MovenetPose } from "./typings";
 type Props = {};
 
 const PoseCoachClientMoveNet = (props: Props) => {
@@ -13,17 +13,22 @@ const PoseCoachClientMoveNet = (props: Props) => {
   const [calibrated, setCalibrated] = useState(false);
   const [baseline, setBaseline] = useState<any>(null);
   const [feedback, setFeedback] = useState("Stand straight to calibrate...");
-
+  // const detectorRef = useRef<posedetection.PoseDetector | null>(null);
   useEffect(() => {
-    let detector: any;
+    // let detector = detectorRef?.current!;
     let animId: any;
+    let detector: any;
 
     const run = async () => {
       await tf.setBackend("webgl");
       await tf.ready();
       detector = await posedetection.createDetector(
         posedetection.SupportedModels.MoveNet,
-        { modelType: "SinglePose.Lightning" }
+        {
+          modelType: posedetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
+          enableSmoothing: true,
+          minPoseScore: 0.2,
+        }
       );
 
       const video = videoRef?.current;
@@ -33,16 +38,16 @@ const PoseCoachClientMoveNet = (props: Props) => {
 
       const ctx = canvasRef.current.getContext("2d");
 
-      const detect = async () => {
-        const poses = await detector.estimatePoses(video);
-        ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-        if (poses.length > 0) {
-          drawPose(poses[0], ctx);
-          handleCoaching(poses[0]);
-        }
-        animId = requestAnimationFrame(detect);
-      };
-      detect();
+      // const detect = async () => {
+      //   const poses: MovenetPose[] = await detector.estimatePoses(video);
+      //   ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      //   if (poses?.length! > 0) {
+      //     drawPose(poses[0], ctx);
+      //     handleCoaching(poses[0]);
+      //   }
+      //   animId = requestAnimationFrame(detect);
+      // };
+      // detect();
     };
 
     run();

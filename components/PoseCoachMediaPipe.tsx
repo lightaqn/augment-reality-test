@@ -88,10 +88,10 @@ const PoseCoachMediaPipe = (props: Props) => {
       }
     }
 
-    // simple helpers
-    function dist(a: any, b: any) {
-      return Math.hypot(a.x - b.x, a.y - b.y);
-    }
+    // // simple helpers
+    // function dist(a: any, b: any) {
+    //   return Math.hypot(a.x - b.x, a.y - b.y);
+    // }
 
     function onResults(results: any) {
       if (!running) return;
@@ -106,19 +106,19 @@ const PoseCoachMediaPipe = (props: Props) => {
       if (results.poseLandmarks) {
         // draw landmarks
         // @ts-ignore
-        window.drawConnectors &&
-          window?.drawConnectors(
-            ctx,
-            results.poseLandmarks,
-            window.POSE_CONNECTIONS,
-            { color: "#00FF99", lineWidth: 2 }
-          );
+        // window.drawConnectors &&
+        //   window?.drawConnectors(
+        //     ctx,
+        //     results.poseLandmarks,
+        //     window.POSE_CONNECTIONS,
+        //     { color: "#00FF99", lineWidth: 2 }
+        //   );
         // @ts-ignore
-        window.drawLandmarks &&
-          window?.drawLandmarks(ctx, results.poseLandmarks, {
-            color: "#FF0066",
-            lineWidth: 2,
-          });
+        // window.drawLandmarks &&
+        //   window?.drawLandmarks(ctx, results.poseLandmarks, {
+        //     color: "#FF0066",
+        //     lineWidth: 2,
+        //   });
 
         // read select landmarks: wrists, shoulders, nose
         const lm = results.poseLandmarks;

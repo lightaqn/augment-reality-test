@@ -29,9 +29,9 @@ export default function Home() {
             <h2 className="font-medium">Overview</h2>
             <p className="text-lg text-gray-600 mt-2">
               Open this on a phone or tablet. The AR Coach uses your camera and
-              MediaPipe Pose to detect hand and body landmarks and gives
-              real-time voice and text feedback using simple rules (handwashing,
-              PPE prompts, idle warnings, posture hints).
+              either MediaPipe or MoveNet to detect hand and body landmarks and
+              gives real-time voice and text feedback using simple rules
+              (handwashing, PPE prompts, idle warnings, posture hints).
             </p>
           </section>
 
